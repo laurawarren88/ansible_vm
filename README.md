@@ -25,13 +25,14 @@ cd <filename>
 ```
 
 ## 🐾 Step Two
-Clone the repository from github and then you can set your python 🐍 virtual environment
+Clone the repository from github and then move into the new directory.
 ```bash
 git clone https://github.com/laurawarren88/ansible_vm.git
+cd ansible_vm
 ```
 
 ## 🐾 Step Three 
-Now you have the repository stored where you want it you can set your python virtual environment and install all the necessary requirments
+Now you have the repository stored where you want it you can set your python 🐍 virtual environment and install all the necessary requirments
 ```bash
 python3 -m venv venv
 source venv/bin/activate
