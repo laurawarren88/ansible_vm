@@ -1,2 +1,74 @@
 ---
 # vars file for ansible
+---
+#Variables for all VMs
+vcenter_server: "vcenter.easlab.co.uk"
+vcenter_validate_certs: false
+datacenter_name: "Development"
+template_path: "/Development/vm/Laura/CentOS8_Blank"
+folder_path: "/Laura/Ansible"
+network_mask: "255.255.255.0"
+internal_network: "Laura"
+vm_ram_mb: 2048
+vm_cpu_n: 2
+ansible_user: "root"
+mode: "0644"
+  
+# Gateway VM variables
+vm_name_gateway: "gateway_ansible"
+gateway_network: "VM Network"
+gateway_ip: "172.16.6.200"
+external_gateway_ip: "172.16.0.1"
+internal_gateway_ip: "10.0.0.1"
+
+# DHCP VM variables
+vm_name_dhcp: "dhcp_ansible"
+dhcp_ip: "10.0.0.2"
+dhcp_template_path: "{{ playbook_dir | realpath }}/../templates/dhcp_conf.j2" 
+dhcp_file: "/etc/dhcp/dhcpd.conf"
+
+#DNS VM variables
+vm_name_dns: "dns_ansible"
+dns_ip: "10.0.0.3"
+dns_serial: 2024091602
+named_template_path: "{{ playbook_dir | realpath }}/../templates/named_conf.j2"
+zone_template_path: "{{ playbook_dir | realpath }}/../templates/dns_zone.j2"
+hosts_file: "/etc/hosts"
+domain: "lmw.local"
+named_conf: "/etc/named.conf"
+fwd_zone_file: "/var/named/fwd.lmw.local"
+rev_zone_file: "/var/named/rev.lmw.local"
+bind_listen_ipv4_port: 53
+bind_listen_ipv4:
+  - "127.0.0.1"
+  - "10.0.0.3"
+bind_listen_ipv6_port: 53
+bind_listen_ipv6: []
+bind_dir: "/var/named"
+bind_allow_query:
+  - "localhost"
+  - "10.0.0.0/24"
+  - "any"
+bind_forwarders:
+  - "8.8.8.8"
+  - "8.8.4.4"
+bind_forward_only: true
+bind_recursion: true
+bind_allow_recursion:
+  - "localhost"
+bind_acls: []
+bind_check_names: "warn"
+zones:
+  - name: "{{ domain }}"
+    type: "master"
+    file: "{{ fwd_zone_file }}"
+    allow_update: "none"
+  - name: "0.0.10.in-addr.arpa"
+    type: "master"
+    file: "{{ rev_zone_file }}"
+    allow_update: "none"
+
+# Variables specific to webserver
+vm_name_webserver: "webserver_ansible"
+webserver_port: 3000
+webserver_target_url: "https://jsonplaceholder.typicode.com/todos"
