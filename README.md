@@ -13,28 +13,24 @@ This Ansible project automates the configuration of a network including a DNS VM
 ## Inventory Configuration
 The inventory file defines the hosts and their connection parameters. Ensure you update the inventory to reflect your environment.
 
-Playbooks
+## Playbooks
 
-DNS Server Configuration
-
+### DNS Server Configuration
 The DNS server is configured to handle domain resolution. The playbook installs BIND, sets up the necessary configuration files, and ensures the service is running.
 
 •	Playbook Path: playbooks/dns.yml
 
-DHCP Server Configuration
-
+### DHCP Server Configuration
 The DHCP server provides dynamic IP address allocation to devices in the network. This playbook installs the DHCP server software and configures it with the specified settings.
 
 •	Playbook Path: playbooks/dhcp.yml
 
-Web Server Deployment
-
+### Web Server Deployment
 The web server hosts the application from a specified GitHub repository.
 
 •	Playbook Path: playbooks/webserver.yml
 
-How to Use
-
+## How to Use
 1.  Clone the Repository in your desired location. 
 
 2.  Modify the var/main.yml file as you see fit if you want to save the VMs in a new location.
