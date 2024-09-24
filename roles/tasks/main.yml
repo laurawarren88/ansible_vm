@@ -1,56 +1,56 @@
 ---
 # Define a list of VMs to create
-    - name: Create VMs
-      community.vmware.vmware_guest:
-        hostname: "{{ vars_vcenter_server }}"
-        username: "{{ vars_vcenter_username }}"
-        password: "{{ vars_vcenter_password }}"
-        validate_certs: "{{ vars_vcenter_validate_certs }}"
-        name: "{{ item.name }}"
-        template: "{{ vars_template_path }}"
-        datacenter: "{{ vars_datacenter_name }}"
-        folder: "{{ vars_folder_path }}"
-        hardware:
-          memory_mb: "{{ vars_vm_ram_mb }}"
-          num_cpus: "{{ vars_vm_cpu_n }}"
-        networks: "{{ item.networks }}"
-        wait_for_ip_address: true
-        state: poweredon
-      delegate_to: localhost
-      loop:
-        - name: "{{ vars_vm_name_gateway }}"
-          networks:
-            - name: "{{ vars_gateway_network }}"
-              ip: "{{ vars_gateway_ip }}"
-              netmask: "{{ vars_network_mask }}"
-              gateway: "{{ vars_external_gateway_ip }}"
-              type: "static"
-              start_connected: true
-            - name: "{{ vars_internal_network }}"
-              ip: "{{ vars_internal_gateway_ip }}"
-              netmask: "{{ vars_network_mask }}"
-              type: "static"
-              start_connected: true
+- name: Create VMs
+  community.vmware.vmware_guest:
+    hostname: "{{ vars_vcenter_server }}"
+    username: "{{ vars_vcenter_username }}"
+    password: "{{ vars_vcenter_password }}"
+    validate_certs: "{{ vars_vcenter_validate_certs }}"
+    name: "{{ item.name }}"
+    template: "{{ vars_template_path }}"
+    datacenter: "{{ vars_datacenter_name }}"
+    folder: "{{ vars_folder_path }}"
+    hardware:
+      memory_mb: "{{ vars_vm_ram_mb }}"
+      num_cpus: "{{ vars_vm_cpu_n }}"
+    networks: "{{ item.networks }}"
+    wait_for_ip_address: true
+    state: poweredon
+  delegate_to: localhost
+  loop:
+    - name: "{{ vars_vm_name_gateway }}"
+      networks:
+        - name: "{{ vars_gateway_network }}"
+          ip: "{{ vars_gateway_ip }}"
+          netmask: "{{ vars_network_mask }}"
+          gateway: "{{ vars_external_gateway_ip }}"
+          type: "static"
+          start_connected: true
+        - name: "{{ vars_internal_network }}"
+          ip: "{{ vars_internal_gateway_ip }}"
+          netmask: "{{ vars_network_mask }}"
+          type: "static"
+          start_connected: true
 
-        - name: "{{ vars_vm_name_dns }}"
-          networks:
-            - name: "{{ vars_internal_network }}"
-              ip: "{{ vars_dns_ip }}"
-              netmask: "{{ vars_network_mask }}"
-              gateway: "{{ vars_internal_gateway_ip }}"
-              type: "static"
-              start_connected: true
+    - name: "{{ vars_vm_name_dns }}"
+      networks:
+        - name: "{{ vars_internal_network }}"
+          ip: "{{ vars_dns_ip }}"
+          netmask: "{{ vars_network_mask }}"
+          gateway: "{{ vars_internal_gateway_ip }}"
+          type: "static"
+          start_connected: true
 
-        # - name: "{{ vm_name_dhcp }}"
-        #   networks:
-        #     - name: "{{ internal_network }}"
-        #       ip: "{{ dhcp_ip }}"
-        #       netmask: "{{ network_mask }}"
-        #       gateway: "{{ internal_gateway_ip }}"
-        #       type: "static"
-        #       start_connected: true
+    - name: "{{ vars_vm_name_dhcp }}"
+      networks:
+        - name: "{{ vars_internal_network }}"
+          ip: "{{ vars_dhcp_ip }}"
+          netmask: "{{ vars_network_mask }}"
+          gateway: "{{ vars_internal_gateway_ip }}"
+          type: "static"
+          start_connected: true
 
-        # - name: "{{ vm_name_webserver }}"
-        #   networks:
-        #     - name: "{{ internal_network }}"
-        #       start_connected: true
+# - name: "{{ vm_name_webserver }}"
+#   networks:
+#     - name: "{{ internal_network }}"
+#       start_connected: true

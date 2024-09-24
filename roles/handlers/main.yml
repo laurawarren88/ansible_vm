@@ -5,3 +5,9 @@
     name: named
     state: restarted
     enabled: true
+
+- name: Restart DHCP service
+  ansible.builtin.service:
+    name: dhcpd
+    state: restarted
+    enabled: true

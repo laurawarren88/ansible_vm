@@ -33,9 +33,16 @@
     - name: Include tasks for the DNS VM
       ansible.builtin.include_tasks: roles/tasks/dns.yml
 
-# # Step 4: Configure the DHCP VM, handles IP ranges and reservations and starts the DHCP service.
-# - name: Playbook to create DHCP VM
-#   import_playbook: roles/tasks/dhcp.yml
+# Step 4: Configure the DHCP VM, handles IP ranges and reservations and starts the DHCP service.
+- name: Configure DHCP VM
+  hosts: dhcp_ansible
+  gather_facts: true
+  become: true
+  vars_files:
+    - roles/vars/main.yml
+  tasks:
+    - name: Include tasks for the DHCP VM
+      ansible.builtin.include_tasks: roles/tasks/dhcp.yml
 
 # # Step 5: Configure the Webserver VM, loads a git repository and displays JSON.
 # - name: Playbook to create Webserver VM

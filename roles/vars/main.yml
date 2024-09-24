@@ -23,7 +23,7 @@ vars_internal_gateway_ip: "10.0.0.1"
 # DHCP VM variables
 vars_vm_name_dhcp: "dhcp_ansible"
 vars_dhcp_ip: "10.0.0.2"
-vars_dhcp_template_path: "{{ playbook_dir | realpath }}/../templates/dhcp_conf.j2"
+vars_dhcp_template_path: "{{ playbook_dir | realpath }}/roles/templates/dhcp_conf.j2"
 vars_dhcp_file: "/etc/dhcp/dhcpd.conf"
 
 # DNS VM variables
