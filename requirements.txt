@@ -4,13 +4,16 @@ ansible-core==2.17.4
 ansible-lint==24.9.2
 attrs==24.2.0
 black==24.8.0
+boto==2.49.0
 bracex==2.5
 certifi==2024.8.30
 cffi==1.17.1
 charset-normalizer==3.3.2
 click==8.1.7
 cryptography==43.0.1
+ec2==0.4.0
 filelock==3.16.1
+firewall==0.2.0
 idna==3.10
 importlib_metadata==8.5.0
 Jinja2==3.1.4
@@ -38,6 +41,7 @@ ruamel.yaml.clib==0.2.8
 six==1.16.0
 subprocess-tee==0.4.2
 urllib3==2.2.3
+vmtools==0.45
 wcmatch==9.0
 yamllint==1.35.1
 zipp==3.20.2
