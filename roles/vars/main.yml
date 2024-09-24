@@ -1,7 +1,6 @@
 ---
 # vars file for ansible
----
-#Variables for all VMs
+# Variables for all VMs
 vcenter_server: "vcenter.easlab.co.uk"
 vcenter_validate_certs: false
 datacenter_name: "Development"
@@ -13,7 +12,7 @@ vm_ram_mb: 2048
 vm_cpu_n: 2
 ansible_user: "root"
 mode: "0644"
-  
+
 # Gateway VM variables
 vm_name_gateway: "gateway_ansible"
 gateway_network: "VM Network"
