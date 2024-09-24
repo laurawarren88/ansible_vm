@@ -7,15 +7,9 @@
   vars_files:
     - roles/vars/main.yml
     - roles/vars/secrets.yml
-    - roles/vars/ssh_keys.yml
   tasks:
     - name: Create the essential VMs (Gateway, DNS, DHCP, Webserver)
       ansible.builtin.include_tasks: roles/tasks/main.yml
-    - name: Add SSH key for VM access
-      ansible.builtin.copy:
-        dest: roles/vars/ssh_keys.yml
-        content: "{{ ssh_vm_key }}"
-        mode: '0600'
 
 # Step 2: Configure the Gateway VM, adding port IP forwarding and firewall rules.
 - name: Configure Gateway VM
@@ -27,11 +21,6 @@
   tasks:
     - name: Include tasks for the Gateway VM
       ansible.builtin.include_tasks: roles/tasks/gateway.yml
-    - name: Add SSH key for VM access
-      ansible.builtin.copy:
-        dest: roles/vars/ssh_keys.yml
-        content: "{{ ssh_vm_key }}"
-        mode: '0600'
 
 # Step 3: Configure the DNS VM, sets up forward and reverse zones and activates DNS service.
 - name: Configure DNS VM
@@ -40,15 +29,9 @@
   become: true
   vars_files:
     - roles/vars/main.yml
-    - roles/vars/ssh_keys.yml
   tasks:
     - name: Include tasks for the DNS VM
       ansible.builtin.include_tasks: roles/tasks/dns.yml
-    - name: Add SSH key for VM access
-      ansible.builtin.copy:
-        dest: roles/vars/ssh_keys.yml
-        content: "{{ ssh_vm_key }}"
-        mode: '0600'
 
 # Step 4: Configure the DHCP VM, handles IP ranges and reservations and starts the DHCP service.
 - name: Configure DHCP VM
@@ -57,15 +40,9 @@
   become: true
   vars_files:
     - roles/vars/main.yml
-    - roles/vars/ssh_keys.yml
   tasks:
     - name: Include tasks for the DHCP VM
       ansible.builtin.include_tasks: roles/tasks/dhcp.yml
-    - name: Add SSH key for VM access
-      ansible.builtin.copy:
-        dest: roles/vars/ssh_keys.yml
-        content: "{{ ssh_vm_key }}"
-        mode: '0600'
 
 # Step 5: Configure the Webserver VM, loads a git repository and displays JSON.
 - name: Configure Gateway VM
@@ -74,12 +51,6 @@
   become: true
   vars_files:
     - roles/vars/main.yml
-    - roles/vars/ssh_keys.yml
   tasks:
     - name: Include tasks for the webserver VM
       ansible.builtin.include_tasks: roles/tasks/webserver.yml
-    - name: Add SSH key for VM access
-      ansible.builtin.copy:
-        dest: roles/vars/ssh_keys.yml
-        content: "{{ ssh_vm_key }}"
-        mode: '0600'
