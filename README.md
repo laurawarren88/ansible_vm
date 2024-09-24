@@ -66,8 +66,24 @@ Once you have these set make sure you save the file and encrypt it, remember the
 ansible-vault encrypt roles/vars/secrets.yml
 ```
 
+## Step Five 
+Inorder to be able to set up and use the VMs from your machine you need to generate an SSH key pair.
 
-## Step Five
+Run the following command to create a new SSH key:
+```bash
+ssh-keygen 
+```
+When prompted save the file in the default location (~/.ssh/id_rsa) as this is what is defined in the inventory, if you do wish to use your own location make sure you make the necessary changes to the inventory.ini file.
+
+You may also be asked for a passphrase. You can choose to set one or leave it empty.
+
+Once you have generated your keys you will need to add your public key to the authorized keys file on each VM. 
+```bash
+ssh-copy-id root@<vm_ip>
+```
+Repeat this step for each VM. IPs are set in the roles/vars/main.yml file. 
+
+## Step Six
 Run the Playbook: 
 ```bash
 ansible-playbook -i inventory.ini main.yml
@@ -78,7 +94,7 @@ If using encrypted files, run the playbook with:
 ansible-playbook -i inventory.ini main.yml --ask-vault-pass
 ```
 
-## Step Five
+## Step Seven
 Testing the Setup:
 ```bash
 curl http://<webserver_ip>:3000 | jq
