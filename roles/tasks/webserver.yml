@@ -1,0 +1,87 @@
+---
+- name: Include firewall rules for the webserver
+  ansible.builtin.include_tasks:
+    file: ../firewall/main.yml
+
+- name: Install npm Package
+  ansible.builtin.command:
+    cmd: yum install npm -y
+
+- name: Install git Package
+  ansible.builtin.command:
+    cmd: yum install git -y
+
+- name: Install git Package
+  ansible.builtin.command:
+    cmd: npm install nodejs -y
+
+- name: Ensure the destination directory exists
+  ansible.builtin.file:
+    path: /var/www/trainee_challenge
+    state: directory
+    mode: '0755'
+
+# # - name: Check if the repository already exists
+# #   ansible.builtin.stat:
+# #     path: /var/www/trainee_challenge/.git
+# #   register: repo_check
+
+# # - name: Clone the web application from GitHub if not present
+# #   ansible.builtin.git:
+# #     repo: 'git@github.com:Enterprise-Automation/trainee-challenge-node-app.git'
+# #     dest: /var/www/trainee_challenge
+# #   when: not repo_check.stat.exists
+# #   register: git_clone_result
+
+# # - name: Debug Git clone
+# #   ansible.builtin.debug:
+# #     var: git_clone_result
+
+# # - name: Install git Package
+# #   ansible.builtin.command:
+# #     cmd: yum install httpd -y
+
+# # - name: Start and enable Apache Web Server
+# #   ansible.builtin.service:
+# #     name: httpd
+# #     state: started
+# #     enabled: true
+
+# # - name: Create .env file with necessary variables
+# #   ansible.builtin.copy:
+# #     dest: /var/www/trainee_challenge/.env
+# #     content: |
+# #       PORT={{ vars_webserver_port }}
+# #       TARGET_URL={{ vars_webserver_target_url }}
+# #     mode: "{{ vars_mode }}"
+
+# # - name: Install npm dependencies
+# #   ansible.builtin.command:
+# #     cmd: npm install
+# #     chdir: /var/www/trainee_challenge
+
+# # - name: Ensure pm2 is installed globally
+# #   community.general.npm:
+# #     name: pm2
+# #     global: true
+# #     state: present
+
+# # - name: Start the web application using pm2
+# #   ansible.builtin.command:
+# #     cmd: pm2 start /var/www/trainee_challenge/index.js --name trainee_app -f
+# #   args:
+# #     chdir: /var/www/trainee_challenge/
+
+# # - name: Save pm2 process list to start on reboot
+# #   ansible.builtin.command:
+# #     cmd: pm2 save
+
+# # - name: Ensure pm2 restarts the app on reboot
+# #   ansible.builtin.command:
+# #     cmd: pm2 startup systemd
+
+# # - name: Enable pm2 to start on boot
+# #   ansible.builtin.systemd:
+# #     name: pm2-root
+# #     enabled: true
+# #     state: started

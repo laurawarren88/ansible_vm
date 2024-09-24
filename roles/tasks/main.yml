@@ -50,7 +50,7 @@
           type: "static"
           start_connected: true
 
-# - name: "{{ vm_name_webserver }}"
-#   networks:
-#     - name: "{{ internal_network }}"
-#       start_connected: true
+    - name: "{{ vars_vm_name_webserver }}"
+      networks:
+        - name: "{{ vars_internal_network }}"
+          start_connected: true

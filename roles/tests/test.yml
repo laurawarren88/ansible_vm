@@ -1,5 +1,16 @@
 ---
-- hosts: localhost
-  remote_user: root
-  roles:
-    - ansible
+- name: Test Variables
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - var.yml
+    - secrets.yml
+  tasks:
+    - name: Debug variables
+      ansible.builtin.debug:
+        msg:
+          - "gateway_ip: {{ vars_gateway_ip }}"
+          - "network_mask: {{ vars_network_mask }}"
+          - "external_gateway_ip: {{ vars_external_gateway_ip }}"
+          - "internal_gateway_ip: {{ vars_internal_gateway_ip }}"
+          - "dns1: {{ dns1 | default('8.8.8.8') }}"

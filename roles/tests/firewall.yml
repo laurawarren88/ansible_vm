@@ -1,0 +1,40 @@
+---
+# - name: Test firewalld module
+#   hosts: all
+#   become: yes
+#   tasks:
+- name: Check if firewalld is running
+  ansible.builtin.command: systemctl status firewalld
+  register: firewalld_status
+  ignore_errors: true
+
+- name: Debug firewalld status
+  ansible.builtin.debug:
+    msg: "{{ firewalld_status.stdout_lines }}"
+
+- name: Verify firewall zones
+  ansible.builtin.command: firewall-cmd --get-active-zones
+  register: firewall_zones
+  ignore_errors: true
+
+- name: Debug firewall active zones
+  ansible.builtin.debug:
+    msg: "{{ firewall_zones.stdout_lines }}"
+
+- name: Check firewall rules
+  ansible.builtin.command: firewall-cmd --list-all
+  register: firewall_rules
+  ignore_errors: true
+
+- name: Debug firewall rules
+  ansible.builtin.debug:
+    msg: "{{ firewall_rules.stdout_lines }}"
+
+- name: Verify masquerade status
+  ansible.builtin.command: firewall-cmd --query-masquerade
+  register: masquerade_status
+  ignore_errors: true
+
+- name: Debug masquerade status
+  ansible.builtin.debug:
+    msg: "Masquerade is {{ 'enabled' if masquerade_status.stdout == 'yes' else 'disabled' }}"
