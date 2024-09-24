@@ -1,36 +1,36 @@
-# **Ansible Project for Network Configuration and Services Deployment**
+# **Ansible Project for Network Configuration**
 
-## Overview
-This Ansible project automates the configuration of a network of VMs which includes a:
+## ⭐️ Overview
+This Ansible project automates the configuration of a network of VMs which includes:
 ```
 Gateway
 DNS
 DHCP
-web server
+Webserver
 ```
 The playbooks facilitate the setup of these virtual machines in ***vSphere***.
 
-## Prerequisites 
+## ⚙️ Prerequisites 
 This project assumes you have the following: 
 ```
-- Access to a vSphere environment
-- Necessary permissions for VM management and configuration
-- Have Python3.X Installed
+🔸 Access to a vSphere environment
+🔸 Necessary permissions for VM management and configuration
+🔸 Have Python3.X installed
 ```
 
-## Step One
+## 🐾 Step One
 Change your directory to where you wish to run this script and store the cloned repository:
 ```bash
 cd <filename>
 ```
 
-## Step Two
+## 🐾 Step Two
 Clone the repository from github and then you can set your python virtual environment
 ```bash
 git clone https://github.com/laurawarren88/ansible_vm.git
 ```
 
-## Step Three 
+## 🐾 Step Three 
 Now you have the repository stored where you want it you can set your python virtual environment and install all the necessary requirments
 ```bash
 python3 -m venv venv
@@ -38,7 +38,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Step Four 
+## 🐾 Step Four 
 Take a look around the file structure and see what is happening. 
 You will need to add a secrets file into the file tree to store necessary information to run the playbook. 
 I'll walk you through it:
@@ -66,7 +66,7 @@ Once you have these set make sure you save the file and encrypt it, remember the
 ansible-vault encrypt roles/vars/secrets.yml
 ```
 
-## Step Five 
+## 🐾 Step Five 
 Inorder to be able to set up and use the VMs from your machine you need to generate an SSH key pair.
 
 Run the following command to create a new SSH key:
@@ -83,7 +83,7 @@ ssh-copy-id root@<vm_ip>
 ```
 Repeat this step for each VM. IPs are set in the roles/vars/main.yml file. 
 
-## Step Six
+## 🐾 Step Six
 Run the Playbook: 
 ```bash
 ansible-playbook -i inventory.ini main.yml
@@ -94,7 +94,7 @@ If using encrypted files, run the playbook with:
 ansible-playbook -i inventory.ini main.yml --ask-vault-pass
 ```
 
-## Step Seven
+## 🐾 Step Seven
 Testing the Setup:
 ```bash
 curl http://<webserver_ip>:3000 | jq
