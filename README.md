@@ -16,6 +16,7 @@ This project assumes you have the following:
 🔸 Access to a vSphere environment
 🔸 Necessary permissions for VM management and configuration
 🔸 Have Python3.X installed
+🔸 Have VS code installed
 ```
 
 ## 🐾 Step One
@@ -40,7 +41,10 @@ pip install -r requirements.txt
 ```
 
 ## 🐾 Step Four 
-Take a look 👀 around the file 📂 structure and see what is happening. 
+Take a look 👀 around the file 📂 structure and see what is happening with VS code. 
+```bash
+code .
+```
 
 You will need to add a secrets 🤫 file into the file tree to store necessary information to run the playbook. 
 
