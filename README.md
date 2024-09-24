@@ -8,7 +8,7 @@ This Ansible project automates the configuration of a network of VMs which inclu
 🔹 DHCP
 🔹 Webserver
 ```
-The playbooks facilitate the setup of these virtual machines in ***vSphere***.
+The playbooks facilitate the setup of these virtual machines in ***[vSphere]*** (https://vcenter.easlab.co.uk).
 
 ## ⚙️ Prerequisites 
 This project assumes you have the following: 
@@ -57,9 +57,9 @@ vars_folder_path: ""
 vars_internal_network: ""
 ```
 
-Inbetween the double quotes store your username and password you use to login to vSphere. 
+Inbetween the double quotes store your username and password you use to login to **vSphere**. 
 
-For the folder path list a location where you want the VMs to be stored in vSphere e.g. "/Development/vm".
+For the folder path list a location where you want the VMs to be stored in vSphere ***e.g. "/Development/vm"***.
 
 For the internal network, list the name of a VM network you want to use for the internal network to connect to. 
 
@@ -75,7 +75,7 @@ Run the following command to create a new SSH key:
 ```bash
 ssh-keygen 
 ```
-When prompted save the file in the default location (~/.ssh/id_rsa) as this is what is defined in the inventory, if you do wish to use your own location make sure you make the necessary changes to the inventory.ini file.
+When prompted save the file in the default location ***(~/.ssh/id_rsa)*** as this is what is defined in the inventory, if you do wish to use your own location make sure you make the necessary changes to the ***inventory.ini*** file.
 
 You may also be asked for a passphrase. You can choose to set one or leave it empty.
 
