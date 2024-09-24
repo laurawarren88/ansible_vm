@@ -1,0 +1,65 @@
+options {
+{% if vars_bind_listen_ipv4_port is defined and vars_bind_listen_ipv4 is defined %}
+  listen-on port {{ vars_bind_listen_ipv4_port }} { {{ vars_bind_listen_ipv4|join('; ') }}; };
+{% endif %}
+{% if vars_bind_listen_ipv6_port is defined and vars_bind_listen_ipv6|length > 0 %}
+  listen-on-v6 port {{ vars_bind_listen_ipv6_port }} { {{ vars_bind_listen_ipv6|join('; ') }}; };
+{% endif %}
+  directory   "{{ vars_bind_dir }}";
+  dump-file   "{{ vars_bind_dir }}/data/cache_dump.db";
+  statistics-file "{{ vars_bind_dir }}/data/named_stats.txt";
+  memstatistics-file "{{ vars_bind_dir }}/data/named_mem_stats.txt";
+  secroots-file "{{ vars_bind_dir }}/data/named.secroots";
+  recursing-file "{{ vars_bind_dir }}/data/named.recursing";
+  allow-query     { {{ vars_bind_allow_query|join('; ') }}; };
+{% if vars_bind_forwarders|length > 0 %}
+  forwarders { {{ vars_bind_forwarders|join('; ') }}; };
+{% endif %}
+    {% if vars_bind_forward_only %}forward only;{% endif %}
+
+{% if vars_bind_acls|length > 0 %}
+  allow-transfer  { {% for acl in vars_bind_acls %}"{{ vars_acl.name }}"; {% endfor %}};
+{% endif %}
+
+    recursion {% if vars_bind_recursion %}yes{% else %}no{% endif %};
+
+# Additional options that should remain unchanged
+  dnssec-enable yes;
+  dnssec-validation yes;
+  managed-keys-directory "/var/named/dynamic";
+  pid-file "/run/named/named.pid";
+  session-keyfile "/run/named/session.key";
+
+  /* https://fedoraproject.org/wiki/Changes/CryptoPolicy */
+  include "/etc/crypto-policies/back-ends/bind.config";
+};
+
+# Logging section
+logging {
+    channel default_debug {
+        file "data/named.run";
+        severity dynamic;
+        print-time yes;
+        print-category yes;
+        print-severity yes;
+    };
+};
+
+# Root zone
+zone "." IN {
+    type hint;
+    file "named.ca";
+};
+
+{% if vars_zones is defined %}
+# DNS Zones
+{% for vars_zone in vars_zones %}
+zone "{{ vars_zone.name }}" IN {
+    type {{ vars_zone.type }};
+    file "{{ vars_zone.file }}";
+    allow-update { {{ vars_zone.allow_update|default('none') }}; };
+};
+{% endfor %}
+{% endif %}
+
+include "/etc/named.root.key";

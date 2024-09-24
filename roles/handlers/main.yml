@@ -1,2 +1,7 @@
 ---
 # handlers file for ansible
+- name: Restart and enable named service
+  ansible.builtin.service:
+    name: named
+    state: restarted
+    enabled: true

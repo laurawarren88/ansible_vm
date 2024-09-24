@@ -32,14 +32,14 @@
               type: "static"
               start_connected: true
 
-        # - name: "{{ vm_name_dns }}"
-        #   networks:
-        #     - name: "{{ internal_network }}"
-        #       ip: "{{ dns_ip }}"
-        #       netmask: "{{ network_mask }}"
-        #       gateway: "{{ internal_gateway_ip }}"
-        #       type: "static"
-        #       start_connected: true
+        - name: "{{ vars_vm_name_dns }}"
+          networks:
+            - name: "{{ vars_internal_network }}"
+              ip: "{{ vars_dns_ip }}"
+              netmask: "{{ vars_network_mask }}"
+              gateway: "{{ vars_internal_gateway_ip }}"
+              type: "static"
+              start_connected: true
 
         # - name: "{{ vm_name_dhcp }}"
         #   networks:

@@ -1,84 +1,70 @@
 ---
-- name: Configure DNS Server on VM
-  hosts: "{{ vm_name_dns }}"
-  become: true
-  gather_facts: true
-  vars_files:
-    - ../var/main.yml
-  tasks:
-    - name: Set hostname
-      ansible.builtin.hostname:
-        name: "{{ domain }}"
+- name: Set hostname
+  ansible.builtin.hostname:
+    name: "{{ vars_domain }}"
 
-    # Ensure the required entries are present
-    - name: Add correct 127.0.0.1 entry
-      ansible.builtin.lineinfile:
-        path: "{{ hosts_file }}"
-        regexp: '^127\.0\.0\.1\s+.*'
-        line: '127.0.0.1 lmw.local localhost'
-        mode: "{{ mode }}"
+# Ensure the required entries are present
+- name: Add correct 127.0.0.1 entry
+  ansible.builtin.lineinfile:
+    path: "{{ vars_hosts_file }}"
+    regexp: '^127\.0\.0\.1\s+.*'
+    line: '127.0.0.1 lmw.local localhost'
+    mode: "{{ vars_mode }}"
 
-    - name: Ensure the correct DNS entry for 10.0.0.3
-      ansible.builtin.lineinfile:
-        path: "{{ hosts_file }}"
-        regexp: '^10\.0\.0\.3\s+.*'
-        line: '10.0.0.3 lmw.local'
-        create: true
-        mode: "{{ mode }}"
+- name: Ensure the correct DNS entry for 10.0.0.3
+  ansible.builtin.lineinfile:
+    path: "{{ vars_hosts_file }}"
+    regexp: '^10\.0\.0\.3\s+.*'
+    line: '10.0.0.3 lmw.local'
+    create: true
+    mode: "{{ vars_mode }}"
 
-    - name: Ensure localhost entry is present for IPv6
-      ansible.builtin.lineinfile:
-        path: "{{ hosts_file }}"
-        regexp: '^::1\s+.*'
-        line: '::1 localhost localhost.localdomain localhost6 localhost6.localdomain6'
-        create: true
-        mode: "{{ mode }}"
+- name: Ensure localhost entry is present for IPv6
+  ansible.builtin.lineinfile:
+    path: "{{ vars_hosts_file }}"
+    regexp: '^::1\s+.*'
+    line: '::1 localhost localhost.localdomain localhost6 localhost6.localdomain6'
+    create: true
+    mode: "{{ vars_mode }}"
 
-    - name: Include firewall rules for DNS
-      ansible.builtin.include_tasks:
-        file: firewall_rules.yml
+- name: Include firewall rules for DNS
+  ansible.builtin.include_tasks:
+    file: ../firewall/main.yml
 
-    - name: Install a Package
-      ansible.builtin.command:
-        cmd: yum install bind -y
+- name: Install a Package
+  ansible.builtin.command:
+    cmd: yum install bind -y
 
-    - name: Backup current named.conf
-      ansible.builtin.copy:
-        src: "{{ named_conf }}"
-        dest: /etc/named.conf.bak
-        remote_src: true
-        mode: "0600"
+- name: Backup current named.conf
+  ansible.builtin.copy:
+    src: "{{ vars_named_conf }}"
+    dest: /etc/named.conf.bak
+    remote_src: true
+    mode: "0600"
 
-    - name: Create BIND configuration template
-      ansible.builtin.template:
-        src: "{{ named_template_path }}"
-        dest: "{{ named_conf }}"
-        mode: "0640"
+- name: Create BIND configuration template
+  ansible.builtin.template:
+    src: "{{ vars_named_template_path }}"
+    dest: "{{ vars_named_conf }}"
+    mode: "0640"
 
-    # Create forward zone file using Jinja template
-    - name: Create forward zone file
-      ansible.builtin.template:
-        src: "{{ zone_template_path }}"
-        dest: "{{ fwd_zone_file }}"
-        mode: "0640"
-      vars:
-        forward: true
-        reverse: false
+# Create forward zone file using Jinja template
+- name: Create forward zone file
+  ansible.builtin.template:
+    src: "{{ vars_zone_template_path }}"
+    dest: "{{ vars_fwd_zone_file }}"
+    mode: "0640"
+  vars:
+    forward: true
+    reverse: false
 
-    # Create reverse zone file using Jinja template
-    - name: Create reverse zone file
-      ansible.builtin.template:
-        src: "{{ zone_template_path }}"
-        dest: "{{ rev_zone_file }}"
-        mode: "0640"
-      vars:
-        forward: false
-        reverse: true
-      notify: Restart and enable named service
-
-  handlers:
-    - name: Restart and enable named service
-      ansible.builtin.service:
-        name: named
-        state: restarted
-        enabled: true
+# Create reverse zone file using Jinja template
+- name: Create reverse zone file
+  ansible.builtin.template:
+    src: "{{ vars_zone_template_path }}"
+    dest: "{{ vars_rev_zone_file }}"
+    mode: "0640"
+  vars:
+    forward: false
+    reverse: true
+  notify: Restart and enable named service

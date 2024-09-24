@@ -1,0 +1,24 @@
+$TTL 86400
+@   IN  SOA     dns.{{ vars_domain }}. hostmaster.{{ vars_domain }}. (
+        {{ vars_dns_serial }} ; Serial
+        3600       ; Refresh
+        1800       ; Retry
+        1209600    ; Expire
+        86400      ; Minimum TTL
+)
+@       IN      NS      dns.{{ vars_domain }}.
+{% if forward %}
+@       IN      A       {{ vars_dns_ip }}
+
+{{ vars_domain }}.   IN      A       {{ vars_dns_ip }}
+www             IN      CNAME   {{ vars_domain }}.
+gateway         IN      A       {{ vars_internal_gateway_ip }}
+dhcp            IN      A       {{ vars_dhcp_ip }}
+dns             IN      A       {{ vars_dns_ip }}
+{% endif %}
+
+{% if reverse %}
+1       IN      PTR     gateway.{{ vars_domain }}.
+2       IN      PTR     dhcp.{{ vars_domain }}.
+3       IN      PTR     {{ vars_domain }}.
+{% endif %}
