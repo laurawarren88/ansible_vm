@@ -1,7 +1,14 @@
 # **Ansible Project for Network Configuration and Services Deployment**
 
 ## Overview
-This Ansible project automates the configuration of a network including a DNS VM, DHCP VM and a web server. The playbooks facilitate the setup of these virtual machines in vSphere.
+This Ansible project automates the configuration of a network including a:
+```
+Gateway VM
+DNS VM
+DHCP VM
+web server VM
+```
+The playbooks facilitate the setup of these virtual machines in ***vSphere***.
 
 ## Requirements
 •	Ansible (version 2.9 or higher)
