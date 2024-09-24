@@ -1,0 +1,21 @@
+---
+# Main playbook to create and configure VMs using Ansible and vSphere.
+# Step 1: Creates the 4 essential VMs - Gateway, DNS, DHCP and Webserver
+- name: Create all the VMs needed
+  import_playbook: playbooks/create_vm.yml
+
+# Step 2: Configure the Gateway VM, adding port IP forwarding and firewall rules.
+- name: Playbook to create Gateway VM
+  import_playbook: playbooks/gateway.yml
+
+# Step 3: Configure the DHCP VM, handles IP ranges and reservations and starts the DHCP service.
+- name: Playbook to create DHCP VM
+  import_playbook: playbooks/dhcp.yml
+
+# Step 4: Configure the DNS VM, sets up forward and reverse zones and activates DNS service.
+- name: Playbook to create DNS VM
+  import_playbook: playbooks/dns.yml
+
+# Step 5: Configure the Webserver VM, loads a git repository and displays JSON.
+- name: Playbook to create Webserver VM
+  import_playbook: playbooks/webserver.yml
