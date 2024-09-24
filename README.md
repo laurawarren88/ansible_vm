@@ -8,7 +8,7 @@ This Ansible project automates the configuration of a network of VMs which inclu
 🔹 DHCP
 🔹 Webserver
 ```
-The playbooks facilitate the setup of these virtual machines in ***[vSphere]*** (https://vcenter.easlab.co.uk).
+The playbooks facilitate the setup of these virtual machines in [vSphere](https://vcenter.easlab.co.uk).
 
 ## ⚙️ Prerequisites 
 This project assumes you have the following: 
