@@ -10,12 +10,25 @@ web server VM
 ```
 The playbooks facilitate the setup of these virtual machines in ***vSphere***.
 
-## Requirements
-•	Ansible (version 2.9 or higher)
+## Prerequisites 
+This project assumes you have the following: 
+```
 •	Access to a vSphere environment
-•	Python 3.x
 •	Necessary permissions for VM management and configuration
-•	SSH keys to SSH into the VMs and to copy the git repository
+•   Have Python3.X Installed
+```
+
+## Step One
+Change your directory to where you wish to run this script from:
+```
+cd <filename>
+```
+
+## Step Two
+Clone the repository from github and then you can set your python 
+```
+git clone https://github.com/laurawarren88/ansible_vm.git
+```
 
 ## Inventory Configuration
 The inventory file defines the hosts and their connection parameters. Ensure you update the inventory to reflect your environment.
