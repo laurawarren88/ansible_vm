@@ -1,19 +1,16 @@
-Ansible Project for Network Configuration and Services Deployment
+# **Ansible Project for Network Configuration and Services Deployment**
 
-Overview
-
+## Overview
 This Ansible project automates the configuration of a network including a DNS VM, DHCP VM and a web server. The playbooks facilitate the setup of these virtual machines in vSphere.
 
-Requirements
-
+## Requirements
 •	Ansible (version 2.9 or higher)
 •	Access to a vSphere environment
 •	Python 3.x
 •	Necessary permissions for VM management and configuration
 •	SSH keys to SSH into the VMs and to copy the git repository
 
-Inventory Configuration
-
+## Inventory Configuration
 The inventory file defines the hosts and their connection parameters. Ensure you update the inventory to reflect your environment.
 
 Playbooks
