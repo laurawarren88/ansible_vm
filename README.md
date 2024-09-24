@@ -20,19 +20,19 @@ This project assumes you have the following:
 
 ## Step One
 Change your directory to where you wish to run this script and store the cloned repository:
-```
+```bash
 cd <filename>
 ```
 
 ## Step Two
 Clone the repository from github and then you can set your python virtual environment
-```
+```bash
 git clone https://github.com/laurawarren88/ansible_vm.git
 ```
 
 ## Step Three 
 Now you have the repository stored where you want it you can set your python virtual environment and install all the necessary requirments
-```
+```bash
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -42,7 +42,7 @@ pip install -r requirements.txt
 Take a look around the file structure and see what is happening. 
 You will need to add a secrets file into the file tree to store necessary information to run the playbook. 
 I'll walk you through it:
-```
+```bash
 touch roles/vars/secrets.yml
 vim roles/vars/secrets.yml
 ```
@@ -62,24 +62,24 @@ For the folder path list a location where you want the VMs to be stored in vSphe
 For the internal network, list the name of a VM network you want to use for the internal network to connect to. 
 
 Once you have these set make sure you save the file and encrypt it, remember the password you set you'll need it later 😜. 
-```
+```bash
 ansible-vault encrypt roles/vars/secrets.yml
 ```
 
 
 ## Step Five
 Run the Playbook: 
-```
+```bash
 ansible-playbook -i inventory.ini main.yml
 ```
 
 If using encrypted files, run the playbook with: 
-```
+```bash
 ansible-playbook -i inventory.ini main.yml --ask-vault-pass
 ```
 
 ## Step Five
 Testing the Setup:
-```
+```bash
 curl http://<webserver_ip>:3000 | jq
 ```
