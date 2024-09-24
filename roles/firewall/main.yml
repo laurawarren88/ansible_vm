@@ -1,0 +1,81 @@
+---
+# Setup the firewall
+- name: Ensure firewalld is running
+  ansible.builtin.service:
+    name: firewalld
+    state: started
+    enabled: true
+
+- name: Disable SELinux
+  ansible.builtin.lineinfile:
+    path: /etc/sysconfig/selinux
+    regexp: '^SELINUX='
+    line: 'SELINUX=disabled'
+  notify: Disable Selinux
+
+# Firewall configurations for all hosts
+- name: Open 53/tcp firewall port on all hosts
+  ansible.builtin.command:
+    _raw_params: firewall-cmd --permanent --add-port=53/tcp
+
+- name: Open 53/udp firewall port on all hosts
+  ansible.builtin.command:
+    _raw_params: firewall-cmd --permanent --add-port=53/udp
+
+# Allow incoming web traffic on all hosts
+- name: Open 22/tcp firewall port on all hosts
+  ansible.builtin.command:
+    _raw_params: firewall-cmd --permanent --add-port=22/tcp
+
+- name: Open 80/tcp firewall port on all hosts
+  ansible.builtin.command:
+    _raw_params: firewall-cmd --permanent --add-port=80/tcp
+
+# NodeJS port and port run on web application
+- name: Open 3000/tcp firewall port on all hosts
+  ansible.builtin.command:
+    _raw_params: firewall-cmd --permanent --add-port=3000/tcp
+
+- name: Open 443/tcp firewall port on all hosts
+  ansible.builtin.command:
+    _raw_params: firewall-cmd --permanent --add-port=443/tcp
+
+- name: Adding the DNS to sources on the gateway
+  ansible.builtin.command:
+    _raw_params: firewall-cmd --permanent --zone=public --add-source=10.0.0.3
+  when: inventory_hostname == "vars_gateway_ansible"
+
+- name: Adding the DHCP to sources on the gateway
+  ansible.builtin.command:
+    _raw_params: firewall-cmd --permanent --zone=public --add-source=10.0.0.2
+  when: inventory_hostname == "vars_gateway_ansible"
+
+- name: Opening forward ports on the gateway
+  ansible.builtin.command:
+    _raw_params: firewall-cmd --permanent --zone=public --add-forward-port=port=67:proto=tcp:toport=80:toaddr=10.0.0.2
+  when: inventory_hostname == "vars_gateway_ansible"
+
+- name: Opening forward ports on the gateway
+  ansible.builtin.command:
+    _raw_params: firewall-cmd --permanent --zone=public --add-forward-port=port=53:proto=tcp:toport=80:toaddr=10.0.0.3
+  when: inventory_hostname == "vars_gateway_ansible"
+
+# DHCP specific firewall configurations
+- name: Open DHCP 67/tcp firewall port
+  ansible.builtin.command:
+    _raw_params: firewall-cmd --permanent --add-port=67/tcp
+  when: inventory_hostname == "vars_dhcp_ansible"
+
+- name: Open DHCP 67/udp firewall port
+  ansible.builtin.command:
+    _raw_params: firewall-cmd --permanent --add-port=67/udp
+  when: inventory_hostname == "vars_dhcp_ansible"
+
+- name: Reload firewalld
+  ansible.builtin.service:
+    name: firewalld
+    state: reloaded
+
+    # firewall-cmd --zone=public --add-forward --permanent
+    # firewall-cmd --zone=public --add-forward-port=port=3000:proto=tcp:toaddr=10.0.0.10 --permanent
+    # firewall-cmd --zone=public --add-forward-port=port=3000:proto=tcp:toport=3000:toaddr=10.0.0.10 --permanent

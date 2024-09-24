@@ -1,0 +1,3 @@
+--- 
+vars_vcenter_server: "vcenter.easlab.co.uk"
+vars_vcenter_username: "laura@easlab.co.uk"

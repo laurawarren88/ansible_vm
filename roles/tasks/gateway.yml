@@ -1,0 +1,4 @@
+---
+- name: Include firewall rules for the gateway VM
+  ansible.builtin.include_tasks:
+    file: ../firewall/main.yml

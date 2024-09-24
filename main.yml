@@ -1,21 +1,35 @@
 ---
 # Main playbook to create and configure VMs using Ansible and vSphere.
 # Step 1: Creates the 4 essential VMs - Gateway, DNS, DHCP and Webserver
-- name: Create all the VMs needed
-  import_playbook: tasks/main.yml
+- name: Create VMs
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - roles/vars/main.yml
+    - roles/vars/secrets.yml
+  tasks:
+    - name: Create the essential VMs (Gateway, DNS, DHCP, Webserver)
+      ansible.builtin.include_tasks: roles/tasks/main.yml
 
 # Step 2: Configure the Gateway VM, adding port IP forwarding and firewall rules.
-- name: Playbook to create Gateway VM
-  import_playbook: tasks/gateway.yml
+- name: Configure Gateway VM
+  hosts: gateway_ansible
+  gather_facts: true
+  become: true
+  vars_files:
+    - roles/vars/main.yml
+  tasks:
+    - name: Include firewall rules for the Gateway VM
+      ansible.builtin.include_tasks: roles/tasks/gateway.yml
 
-# Step 3: Configure the DHCP VM, handles IP ranges and reservations and starts the DHCP service.
-- name: Playbook to create DHCP VM
-  import_playbook: tasks/dhcp.yml
+# # Step 3: Configure the DHCP VM, handles IP ranges and reservations and starts the DHCP service.
+# - name: Playbook to create DHCP VM
+#   import_playbook: roles/tasks/dhcp.yml
 
-# Step 4: Configure the DNS VM, sets up forward and reverse zones and activates DNS service.
-- name: Playbook to create DNS VM
-  import_playbook: tasks/dns.yml
+# # Step 4: Configure the DNS VM, sets up forward and reverse zones and activates DNS service.
+# - name: Playbook to create DNS VM
+#   import_playbook: roles/tasks/dns.yml
 
-# Step 5: Configure the Webserver VM, loads a git repository and displays JSON.
-- name: Playbook to create Webserver VM
-  import_playbook: tasks/webserver.yml
+# # Step 5: Configure the Webserver VM, loads a git repository and displays JSON.
+# - name: Playbook to create Webserver VM
+#   import_playbook: roles/tasks/webserver.yml
