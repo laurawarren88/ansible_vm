@@ -1,13 +1,11 @@
 ---
 # vars file for ansible
 # Variables for all VMs
-vars_vcenter_password: "Renegade187!"
+vars_vcenter_server: "vcenter.easlab.co.uk"
 vars_vcenter_validate_certs: false
 vars_datacenter_name: "Development"
 vars_template_path: "/Development/vm/Laura/CentOS8_Blank"
-vars_folder_path: "/Laura/Ansible"
 vars_network_mask: "255.255.255.0"
-vars_internal_network: "Laura"
 vars_vm_ram_mb: 2048
 vars_vm_cpu_n: 2
 vars_ansible_user: "root"
