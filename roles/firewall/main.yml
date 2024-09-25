@@ -36,6 +36,12 @@
   ansible.builtin.command:
     _raw_params: firewall-cmd --permanent --add-port=3000/tcp
 
+# Forward traffic from the web to the webserver
+- name: Adding a route for port 3000 to the webserver
+  ansible.builtin.command:
+    _raw_params: firewall-cmd --zone=public --add-forward-port=port=3000:proto=tcp:toport=3000:toaddr=10.0.0.10 --permanent
+  when: inventory_hostname == "gateway_ansible"
+
 - name: Open 443/tcp firewall port on all hosts
   ansible.builtin.command:
     _raw_params: firewall-cmd --permanent --add-port=443/tcp
@@ -48,6 +54,11 @@
 - name: Adding the DHCP to sources on the gateway
   ansible.builtin.command:
     _raw_params: firewall-cmd --permanent --zone=public --add-source=10.0.0.2
+  when: inventory_hostname == "gateway_ansible"
+
+- name: Opening port forwarding
+  ansible.builtin.command:
+    _raw_params: firewall-cmd --zone=public --add-forward --permanent
   when: inventory_hostname == "gateway_ansible"
 
 - name: Opening forward ports on the gateway
@@ -75,7 +86,3 @@
   ansible.builtin.service:
     name: firewalld
     state: reloaded
-
-    # firewall-cmd --zone=public --add-forward --permanent
-    # firewall-cmd --zone=public --add-forward-port=port=3000:proto=tcp:toaddr=10.0.0.10 --permanent
-    # firewall-cmd --zone=public --add-forward-port=port=3000:proto=tcp:toport=3000:toaddr=10.0.0.10 --permanent
