@@ -70,20 +70,28 @@ For the folder path list a location where you want the VMs to be stored in vSphe
 
 For the internal network, list the name of a VM network you want to use for the internal network to connect to. 
 
-## ***Optional***
+***Optional***
 Once you have these set make sure you save the file and encrypt it, remember the password 🔐 you set you'll need it later 😜. 
 ```bash
 ansible-vault encrypt roles/vars/secrets.yml
 ```
 
 ## 🐾 Step Five
-Run the Playbook: 
+Run the Playbook, with or without extra information: 
+```bash
+ansible-playbook -i inventory.ini main.yml -vvvv
+```
+or 
 ```bash
 ansible-playbook -i inventory.ini main.yml
 ```
 
-## ***Optional***
+***Optional***
 If using encrypted files, run 🏃🏼‍♀️ the playbook with: 
+```bash
+ansible-playbook -i inventory.ini main.yml --ask-vault-pass -vvvv
+```
+or
 ```bash
 ansible-playbook -i inventory.ini main.yml --ask-vault-pass
 ```
@@ -95,7 +103,7 @@ Once the VMs are created and powered on:
 ```
 Click the actions dropdown
 Click edit setting
-Check the box on the network adapter
+Check the box on the network adapter (connected)
 ```
 This will connect the network, seems to be a known bug with vSphere. 
 
