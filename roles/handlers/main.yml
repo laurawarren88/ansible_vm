@@ -11,7 +11,7 @@
     name: named
     state: restarted
     enabled: true
-    when: inventory_hostname == "dns_ansible"
+  when: inventory_hostname == "dns_ansible"
 
 - name: Restart DHCP service
   ansible.builtin.service:
