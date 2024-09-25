@@ -95,9 +95,9 @@ Once the VMs are created and powered on:
 ```
 Click the actions dropdown
 Click edit setting
-Check the box on the network adapter option
+Check the box on the network adapter
 ```
-This will connect the network, seems to be a know bug with vSphere. 
+This will connect the network, seems to be a known bug with vSphere. 
 
 ## 🐾 Step Seven
 Testing 💯 the Setup:
