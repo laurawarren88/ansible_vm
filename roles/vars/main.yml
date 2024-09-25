@@ -5,6 +5,7 @@ vars_vcenter_server: "vcenter.easlab.co.uk"
 vars_vcenter_validate_certs: false
 vars_datacenter_name: "Development"
 vars_template_path: "/Development/vm/Laura/CentOS8_Blank"
+vars_internal_template_path: "/Development/vm/Laura/CentOS8_Internal"
 vars_network_mask: "255.255.255.0"
 vars_vm_ram_mb: 2048
 vars_vm_cpu_n: 2

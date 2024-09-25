@@ -7,7 +7,6 @@
     password: "{{ vars_vcenter_password }}"
     validate_certs: "{{ vars_vcenter_validate_certs }}"
     name: "{{ item.name }}"
-    template: "{{ vars_template_path }}"
     datacenter: "{{ vars_datacenter_name }}"
     folder: "{{ vars_folder_path }}"
     hardware:
@@ -21,6 +20,7 @@
     - name: "{{ vars_vm_name_gateway }}"
       networks:
         - name: "{{ vars_gateway_network }}"
+          template: "{{ vars_template_path }}"
           ip: "{{ vars_gateway_ip }}"
           netmask: "{{ vars_network_mask }}"
           gateway: "{{ vars_external_gateway_ip }}"
@@ -35,6 +35,7 @@
     - name: "{{ vars_vm_name_dns }}"
       networks:
         - name: "{{ vars_internal_network }}"
+          template: "{{ vars_internal_template_path }}"
           ip: "{{ vars_dns_ip }}"
           netmask: "{{ vars_network_mask }}"
           gateway: "{{ vars_internal_gateway_ip }}"
@@ -44,6 +45,7 @@
     - name: "{{ vars_vm_name_dhcp }}"
       networks:
         - name: "{{ vars_internal_network }}"
+          template: "{{ vars_internal_template_path }}"
           ip: "{{ vars_dhcp_ip }}"
           netmask: "{{ vars_network_mask }}"
           gateway: "{{ vars_internal_gateway_ip }}"
@@ -53,4 +55,5 @@
     - name: "{{ vars_vm_name_webserver }}"
       networks:
         - name: "{{ vars_internal_network }}"
+          template: "{{ vars_internal_template_path }}"
           start_connected: true
