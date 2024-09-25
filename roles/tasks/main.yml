@@ -9,6 +9,7 @@
     name: "{{ item.name }}"
     datacenter: "{{ vars_datacenter_name }}"
     folder: "{{ vars_folder_path }}"
+    template: "{{ item.template }}"
     hardware:
       memory_mb: "{{ vars_vm_ram_mb }}"
       num_cpus: "{{ vars_vm_cpu_n }}"
@@ -18,9 +19,9 @@
   delegate_to: localhost
   loop:
     - name: "{{ vars_vm_name_gateway }}"
+      template: "{{ vars_template_path }}"
       networks:
         - name: "{{ vars_gateway_network }}"
-          template: "{{ vars_template_path }}"
           ip: "{{ vars_gateway_ip }}"
           netmask: "{{ vars_network_mask }}"
           gateway: "{{ vars_external_gateway_ip }}"
@@ -33,9 +34,9 @@
           start_connected: true
 
     - name: "{{ vars_vm_name_dns }}"
+      template: "{{ vars_internal_template_path }}"
       networks:
         - name: "{{ vars_internal_network }}"
-          template: "{{ vars_internal_template_path }}"
           ip: "{{ vars_dns_ip }}"
           netmask: "{{ vars_network_mask }}"
           gateway: "{{ vars_internal_gateway_ip }}"
@@ -43,9 +44,9 @@
           start_connected: true
 
     - name: "{{ vars_vm_name_dhcp }}"
+      template: "{{ vars_internal_template_path }}"
       networks:
         - name: "{{ vars_internal_network }}"
-          template: "{{ vars_internal_template_path }}"
           ip: "{{ vars_dhcp_ip }}"
           netmask: "{{ vars_network_mask }}"
           gateway: "{{ vars_internal_gateway_ip }}"
@@ -53,7 +54,7 @@
           start_connected: true
 
     - name: "{{ vars_vm_name_webserver }}"
+      template: "{{ vars_internal_template_path }}"
       networks:
         - name: "{{ vars_internal_network }}"
-          template: "{{ vars_internal_template_path }}"
           start_connected: true
