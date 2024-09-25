@@ -14,4 +14,8 @@
     mode: "{{ vars_mode }}"
   notify: Restart DHCP service
 
-- import_tasks: ../handlers/main.yml
+- name: Restart DHCP service
+  ansible.builtin.service:
+    name: dhcpd
+    state: restarted
+    enabled: true

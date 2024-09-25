@@ -6,13 +6,6 @@
     state: started
     enabled: true
 
-- name: Disable SELinux
-  ansible.builtin.lineinfile:
-    path: /etc/sysconfig/selinux
-    regexp: '^SELINUX='
-    line: 'SELINUX=disabled'
-  notify: Disable Selinux
-
 # Firewall configurations for all hosts
 - name: Open 53/tcp firewall port on all hosts
   ansible.builtin.command:
@@ -86,5 +79,3 @@
   ansible.builtin.service:
     name: firewalld
     state: reloaded
-
-- import_tasks: ../handlers/main.yml

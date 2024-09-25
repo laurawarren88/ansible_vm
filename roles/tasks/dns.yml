@@ -69,4 +69,8 @@
     reverse: true
   notify: Restart and enable named service
 
-- import_tasks: ../handlers/main.yml
+- name: Restart and enable named service
+  ansible.builtin.service:
+    name: named
+    state: restarted
+    enabled: true
