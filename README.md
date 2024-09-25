@@ -17,6 +17,7 @@ This project assumes you have the following:
 🔸 Necessary permissions for VM management and configuration
 🔸 Have Python3.X installed
 🔸 Have VS code installed
+🔸 Be logged into vSphere
 ```
 
 ## 🐾 Step One
@@ -69,6 +70,7 @@ For the folder path list a location where you want the VMs to be stored in vSphe
 
 For the internal network, list the name of a VM network you want to use for the internal network to connect to. 
 
+## ***Optional***
 Once you have these set make sure you save the file and encrypt it, remember the password 🔐 you set you'll need it later 😜. 
 ```bash
 ansible-vault encrypt roles/vars/secrets.yml
@@ -80,12 +82,24 @@ Run the Playbook:
 ansible-playbook -i inventory.ini main.yml
 ```
 
+## ***Optional***
 If using encrypted files, run 🏃🏼‍♀️ the playbook with: 
 ```bash
 ansible-playbook -i inventory.ini main.yml --ask-vault-pass
 ```
 
 ## 🐾 Step Six
+Open your browser to vSphere and watch as the VMs are created (in your desired folder). 
+
+Once the VMs are created and powered on:
+```
+Click the actions dropdown
+Click edit setting
+Check the box on the network adapter option
+```
+This will connect the network, seems to be a know bug with vSphere. 
+
+## 🐾 Step Seven
 Testing 💯 the Setup:
 ```bash
 curl http://<webserver_ip>:3000 | jq
