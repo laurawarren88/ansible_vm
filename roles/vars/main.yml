@@ -14,7 +14,7 @@ vars_mode: "0644"
 # Gateway VM variables
 vars_vm_name_gateway: "gateway_ansible"
 vars_gateway_network: "VM Network"
-vars_gateway_ip: "172.16.6.200"
+vars_gateway_ip: "172.16.6.192"
 vars_external_gateway_ip: "172.16.0.1"
 vars_internal_gateway_ip: "10.0.0.1"
 

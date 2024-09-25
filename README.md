@@ -39,6 +39,7 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
+When running downloading all the packages it may ask you to update some, feel free to do so. 
 
 ## 🐾 Step Four 
 Take a look 👀 around the file 📂 structure and see what is happening with VS code. 
