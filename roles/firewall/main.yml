@@ -86,3 +86,5 @@
   ansible.builtin.service:
     name: firewalld
     state: reloaded
+
+- import_tasks: ../handlers/main.yml

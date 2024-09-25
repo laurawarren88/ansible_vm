@@ -68,3 +68,5 @@
     forward: false
     reverse: true
   notify: Restart and enable named service
+
+- import_tasks: ../handlers/main.yml

@@ -1,5 +1,11 @@
 ---
 # handlers file for ansible
+- name: Disable Selinux
+  ansible.builtin.command:
+    cmd: setenforce 0
+  become: true
+  when: ansible_selinux.status == "enabled"
+
 - name: Restart and enable named service
   ansible.builtin.service:
     name: named

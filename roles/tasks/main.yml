@@ -26,11 +26,13 @@
           netmask: "{{ vars_network_mask }}"
           gateway: "{{ vars_external_gateway_ip }}"
           type: "static"
+          connected: true
           start_connected: true
         - name: "{{ vars_internal_network }}"
           ip: "{{ vars_internal_gateway_ip }}"
           netmask: "{{ vars_network_mask }}"
           type: "static"
+          connected: true
           start_connected: true
 
     - name: "{{ vars_vm_name_dns }}"
@@ -41,6 +43,7 @@
           netmask: "{{ vars_network_mask }}"
           gateway: "{{ vars_internal_gateway_ip }}"
           type: "static"
+          connected: true
           start_connected: true
 
     - name: "{{ vars_vm_name_dhcp }}"
@@ -51,10 +54,12 @@
           netmask: "{{ vars_network_mask }}"
           gateway: "{{ vars_internal_gateway_ip }}"
           type: "static"
+          connected: true
           start_connected: true
 
     - name: "{{ vars_vm_name_webserver }}"
       template: "{{ vars_internal_template_path }}"
       networks:
         - name: "{{ vars_internal_network }}"
+          connected: true
           start_connected: true
