@@ -21,6 +21,11 @@
     state: directory
     mode: '0755'
 
+- name: Ensure GitHub is a known host
+  ansible.builtin.shell: "ssh-keyscan github.com >> /root/.ssh/known_hosts"
+  args:
+    creates: /root/.ssh/known_hosts
+
 - name: Check if the repository already exists
   ansible.builtin.stat:
     path: /var/www/trainee_challenge/.git
