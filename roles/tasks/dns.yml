@@ -68,9 +68,3 @@
     forward: false
     reverse: true
   notify: Restart and enable named service
-
-- name: Restart and enable named service
-  ansible.builtin.service:
-    name: named
-    state: restarted
-    enabled: true

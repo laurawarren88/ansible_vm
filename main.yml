@@ -32,6 +32,12 @@
   tasks:
     - name: Include tasks for the DNS VM
       ansible.builtin.include_tasks: roles/tasks/dns.yml
+  handlers:
+    - name: Restart and enable named service
+      ansible.builtin.service:
+        name: named
+        state: restarted
+        enabled: true
 
 # Step 4: Configure the DHCP VM, handles IP ranges and reservations and starts the DHCP service.
 - name: Configure DHCP VM
@@ -43,9 +49,15 @@
   tasks:
     - name: Include tasks for the DHCP VM
       ansible.builtin.include_tasks: roles/tasks/dhcp.yml
+  handlers:
+    - name: Restart DHCP service
+      ansible.builtin.service:
+        name: dhcpd
+        state: restarted
+        enabled: true
 
 # Step 5: Configure the Webserver VM, loads a git repository and displays JSON.
-- name: Configure Gateway VM
+- name: Configure webserver VM
   hosts: webserver_ansible
   gather_facts: true
   become: true
