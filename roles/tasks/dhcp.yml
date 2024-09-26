@@ -1,4 +1,8 @@
 ---
+- name: Include SSH rules for the DHCP VM
+  ansible.builtin.include_tasks:
+    file: ../ssh_setup.yml
+
 - name: Include firewall rules for DHCP
   ansible.builtin.include_tasks:
     file: ../firewall/main.yml
@@ -13,3 +17,9 @@
     dest: "{{ vars_dhcp_file }}"
     mode: "{{ vars_mode }}"
   notify: Restart DHCP service
+
+- name: Restart DHCP service
+  ansible.builtin.service:
+    name: dhcpd
+    state: restarted
+    enabled: true

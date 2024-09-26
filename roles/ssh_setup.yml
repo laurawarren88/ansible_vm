@@ -1,0 +1,23 @@
+# Ensure the .ssh directory exists on the VM
+- name: Ensure the .ssh directory exists for root
+  ansible.builtin.file:
+    path: /root/.ssh
+    state: directory
+    mode: '0700'
+    owner: root
+    group: root
+
+# Copy the public key to the authorized_keys file on the VM
+- name: Set up authorised SSH key for root
+  ansible.posix.authorized_key:
+    user: root
+    state: present
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"  # Public key from your Mac
+
+# Ensure correct permissions on the authorized_keys file
+- name: Ensure permissions for authorized_keys
+  ansible.builtin.file:
+    path: /root/.ssh/authorized_keys
+    mode: '0600'
+    owner: root
+    group: root

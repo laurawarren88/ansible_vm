@@ -1,4 +1,8 @@
 ---
+- name: Include SSH rules for the DNS VM
+  ansible.builtin.include_tasks:
+    file: ../ssh_setup.yml
+
 - name: Set hostname
   ansible.builtin.hostname:
     name: "{{ vars_domain }}"
@@ -68,3 +72,9 @@
     forward: false
     reverse: true
   notify: Restart and enable named service
+
+- name: Restart and enable named service
+  ansible.builtin.service:
+    name: named
+    state: restarted
+    enabled: true
