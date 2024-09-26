@@ -18,6 +18,8 @@ This project assumes you have the following:
 🔸 Have Python3.X installed
 🔸 Have VS code installed
 🔸 Be logged into vSphere
+🔸 Have the necessary permissions to download the git repo used in this playbook
+🔸 Know how to generate a giuthub token 
 ```
 
 ## 🐾 Step One
@@ -62,6 +64,8 @@ vars_vcenter_username: ""
 vars_vcenter_password: ""
 vars_folder_path: ""
 vars_internal_network: ""
+vars_email: ""
+vars_github_token: ""
 ```
 
 Inbetween the double quotes store your username and password you use to login to **vSphere**. 
@@ -69,6 +73,11 @@ Inbetween the double quotes store your username and password you use to login to
 For the folder path list a location where you want the VMs to be stored in vSphere ***e.g. "/Development/vm"***.
 
 For the internal network, list the name of a VM network you want to use for the internal network to connect to. 
+
+The email address is used when generating the key and ease of identification.
+
+Input the generated token from your github generated token.
+
 
 🤷🏼‍♀️***Optional***🤷🏼‍♀️
 Once you have these set make sure you save the file and encrypt it, remember the password 🔐 you set you'll need it later 😜. 

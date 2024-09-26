@@ -15,16 +15,44 @@
   ansible.builtin.command:
     cmd: npm install nodejs -y
 
-- name: Ensure the destination directory exists
-  ansible.builtin.file:
-    path: /var/www/trainee_challenge
-    state: directory
-    mode: '0755'
+# SSH Key setup tasks (start)
+- name: Generate SSH key if it does not exist
+  ansible.builtin.command:
+    cmd: ssh-keygen -t ed25519 -C "{{ vars_email }}" -f /root/.ssh/git_ssh_key -N ''
+  args:
+    creates: /root/.ssh/git_ssh_key
+
+- name: Add the SSH private key to the SSH agent
+  ansible.builtin.shell: ssh-add /root/.ssh/git_ssh_key
+  when: ansible_ssh_private_key_file is not defined
 
 - name: Ensure GitHub is a known host
   ansible.builtin.shell: "ssh-keyscan github.com >> /root/.ssh/known_hosts"
   args:
     creates: /root/.ssh/known_hosts
+
+- name: Add public SSH key to GitHub (Requires GitHub token)
+  uri:
+    url: "https://api.github.com/user/keys"
+    method: POST
+    headers:
+      Authorization: "token {{ vars_github_token }}"
+      Content-Type: "application/json"
+    body: |
+      {
+        "title": "Webserver Ansible Key",
+        "key": "{{ lookup('file', '/root/.ssh/git_ssh_key.pub') }}"
+      }
+    body_format: json
+    status_code: 201
+  when: github_token is defined
+# SSH Key setup tasks (end)
+
+- name: Ensure the destination directory exists
+  ansible.builtin.file:
+    path: /var/www/trainee_challenge
+    state: directory
+    mode: '0755'
 
 - name: Check if the repository already exists
   ansible.builtin.stat:

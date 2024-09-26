@@ -63,6 +63,7 @@
   become: true
   vars_files:
     - roles/vars/main.yml
+    - roles/vars/secrets.yml
   tasks:
     - name: Include tasks for the webserver VM
       ansible.builtin.include_tasks: roles/tasks/webserver.yml
