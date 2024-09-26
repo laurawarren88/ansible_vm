@@ -6,16 +6,6 @@
     state: started
     enabled: true
 
-- name: Disable SELinux temporarily
-  command: setenforce 0
-  ignore_errors: true
-
-- name: Disable SELinux permanently
-  lineinfile:
-    path: /etc/selinux/config
-    regexp: '^SELINUX='
-    line: 'SELINUX=disabled'
-    
 # Firewall configurations for all hosts
 - name: Open 53/tcp firewall port on all hosts
   ansible.builtin.command:
