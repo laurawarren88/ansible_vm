@@ -58,12 +58,23 @@
 
 # Step 5: Configure the Webserver VM, loads a git repository and displays JSON.
 - name: Configure webserver VM
-  hosts: webserver_ansible
+  hosts: webservers
   gather_facts: true
   become: true
   vars_files:
     - roles/vars/main.yml
     - roles/vars/secrets.yml
   tasks:
+    - name: Ensure known_hosts file exists
+      ansible.builtin.file:
+        path: /root/.ssh/known_hosts
+        state: touch  # This will create the file if it doesn't exist
+        mode: "{{ vars_mode }}"
+    - name: Ensure all webserver IPs are in known_hosts
+      ansible.builtin.shell: "ssh-keyscan -H {{ inventory_hostname }} >> /root/.ssh/known_hosts"
+      args:
+        creates: /root/.ssh/known_hosts
+      when: ansible_hostname is defined
+
     - name: Include tasks for the webserver VM
       ansible.builtin.include_tasks: roles/tasks/webserver.yml

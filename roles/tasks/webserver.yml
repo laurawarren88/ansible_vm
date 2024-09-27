@@ -1,56 +1,47 @@
 ---
-- name: Include SSH rules for the webserver VM
-  ansible.builtin.include_tasks:
-    file: ../ssh_setup.yml
-
 - name: Include firewall rules for the webserver
   ansible.builtin.include_tasks:
     file: ../firewall/main.yml
 
-- name: Install npm Package
+# - name: Install npm Package
+#   ansible.builtin.command:
+#     cmd: yum install npm -y
+
+# - name: Install git Package
+#   ansible.builtin.command:
+#     cmd: yum install git -y
+
+# - name: Install git Package
+#   ansible.builtin.command:
+#     cmd: npm install nodejs -y
+
+- name: Remove existing Node.js
   ansible.builtin.command:
-    cmd: yum install npm -y
+    cmd: yum remove -y nodejs
+
+- name: Install curl Package (required for adding NodeSource repo)
+  ansible.builtin.command:
+    cmd: yum install curl -y
+
+- name: Download NodeSource setup script
+  ansible.builtin.command:
+    cmd: curl -o nodesource_setup.sh https://rpm.nodesource.com/setup_18.x
+
+- name: Execute NodeSource setup script
+  ansible.builtin.command:
+    cmd: bash nodesource_setup.sh
+    
+- name: Install Node.js (includes npm)
+  ansible.builtin.command:
+    cmd: dnf install nodejs -y 
 
 - name: Install git Package
   ansible.builtin.command:
     cmd: yum install git -y
 
-- name: Install git Package
+- name: Ensure npm is updated to the latest version
   ansible.builtin.command:
-    cmd: npm install nodejs -y
-
-# SSH Key setup tasks (start)
-- name: Generate SSH key if it does not exist
-  ansible.builtin.command:
-    cmd: ssh-keygen -t ed25519 -C "{{ vars_email }}" -f /root/.ssh/git_ssh_key -N ''
-  args:
-    creates: /root/.ssh/git_ssh_key
-
-- name: Add the SSH private key to the SSH agent
-  ansible.builtin.shell: ssh-add /root/.ssh/git_ssh_key
-  when: ansible_ssh_private_key_file is not defined
-
-- name: Ensure GitHub is a known host
-  ansible.builtin.shell: "ssh-keyscan github.com >> /root/.ssh/known_hosts"
-  args:
-    creates: /root/.ssh/known_hosts
-
-- name: Add public SSH key to GitHub (Requires GitHub token)
-  uri:
-    url: "https://api.github.com/user/keys"
-    method: POST
-    headers:
-      Authorization: "token {{ vars_github_token }}"
-      Content-Type: "application/json"
-    body: |
-      {
-        "title": "Webserver Ansible Key",
-        "key": "{{ lookup('file', '/root/.ssh/git_ssh_key.pub') }}"
-      }
-    body_format: json
-    status_code: 201
-  when: github_token is defined
-# SSH Key setup tasks (end)
+    cmd: npm install -g npm@latest
 
 - name: Ensure the destination directory exists
   ansible.builtin.file:

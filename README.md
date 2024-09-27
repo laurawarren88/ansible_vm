@@ -4,7 +4,7 @@
 
 This Ansible project automates the configuration of a network of VMs which includes:
 
-```
+```text
 🔹 Gateway
 🔹 DNS
 🔹 DHCP
@@ -17,7 +17,7 @@ The playbooks facilitate the setup of these virtual machines in [vSphere](https:
 
 This project assumes you have the following:
 
-```
+```text
 🔸 Access to a vSphere environment
 🔸 Necessary permissions for VM management and configuration
 🔸 Have Python3.X installed
@@ -75,7 +75,7 @@ vim roles/vars/secrets.yml
 
 In the file you need to include your information ℹ️ into the following variables:
 
-```
+```text
 vars_vcenter_username: ""
 vars_vcenter_password: ""
 vars_folder_path: ""
@@ -135,7 +135,7 @@ Open your browser to vSphere and watch as the VMs are created (in your desired f
 
 Once the VMs are created and powered on:
 
-```
+```text
 Click the actions dropdown
 Click edit setting
 Check the box on the network adapter (connected)
